@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="ItemsRepeaterMoveExceptionRepro.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ItemsRepeaterMoveExceptionRepro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <winui:StackLayout
+            x:Key="VerticalStackLayout"
+            Orientation="Vertical"
+            Spacing="0" />
+
+        <DataTemplate x:Key="TaskDataTemplate" x:DataType="local:Book">
+            <TextBlock Text="{x:Bind Path=Title}" />
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <winui:ItemsRepeater
+            x:Name="TaskRepeater"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ItemTemplate="{StaticResource TaskDataTemplate}"
+            ItemsSource="{x:Bind Books}"
+            Layout="{StaticResource VerticalStackLayout}"/>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button x:Name="btnMove" Click="OnClick" Content="Move book (causes chash)"  />
+            <Button x:Name="btnRemoveInsert" Click="OnClickWorkaround" Content="Move book workaround" Grid.Row="1" />
+        </StackPanel>
+    </Grid>
+</Page>
